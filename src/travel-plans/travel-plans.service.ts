@@ -6,6 +6,8 @@ import { TravelPlan } from './entities/travel-plan.entity';
 import { CreateTravelPlanDto } from './dto/create-travel-plan.dto';
 
 import { CountriesService } from '../countries/countries.service';
+import { UsersService } from '../users/users.service';
+import { CreateExpenseDto } from './dto/create-expense.dto';
 
 @Injectable()
 export class TravelPlansService {
@@ -13,13 +15,20 @@ export class TravelPlansService {
     @InjectRepository(TravelPlan)
     private readonly travelPlanRepository: Repository<TravelPlan>,
 
+    private readonly usersService: UsersService,
+
     private readonly countriesService: CountriesService,
   ) {}
 
   async create(dto: CreateTravelPlanDto): Promise<TravelPlan> {
     await this.countriesService.findOrCreateCountry(dto.destinationCountryCode);
 
-    const travelPlan = this.travelPlanRepository.create(dto);
+    await this.usersService.findOne(dto.userId);
+
+    const travelPlan = this.travelPlanRepository.create({
+      ...dto,
+      expenses: [],
+    });
 
     return await this.travelPlanRepository.save(travelPlan);
   }
@@ -44,5 +53,17 @@ export class TravelPlansService {
     const travelPlan = await this.findOne(id);
 
     await this.travelPlanRepository.remove(travelPlan);
+  }
+
+  async addExpense(id: number, dto: CreateExpenseDto): Promise<TravelPlan> {
+    const travelPlan = await this.findOne(id);
+
+    if (!travelPlan.expenses) {
+      travelPlan.expenses = [];
+    }
+
+    travelPlan.expenses.push(dto);
+
+    return await this.travelPlanRepository.save(travelPlan);
   }
 }

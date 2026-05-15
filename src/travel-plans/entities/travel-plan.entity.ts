@@ -16,4 +16,14 @@ export class TravelPlan {
 
   @Column()
   destinationCountryCode!: string;
+
+  @Column()
+  userId!: number;
+
+  @Column('simple-json', { nullable: true })
+  expenses!: {
+    description: string;
+    amount: number;
+    category: string;
+  }[];
 }

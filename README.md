@@ -1,5 +1,38 @@
 # Travel API - NestJS
 
+
+## Documentación y README de durante el parcial
+
+### Guía de ejecución
+1. Debe clonar el repositorio:
+```bash
+git clone URL_DEL_REPOSITORIO
+```
+2. Debe Entrar a la carpeta del proyecto:
+```bash
+cd travel-api
+```
+3. Debe instalar dependencias:
+```bash
+npm install
+```
+4. Debe ejecutar la aplicación:
+```bash
+npm run start:dev
+```
+Y listo, la API queda corriendo en:
+```txt
+http://localhost:3000
+```
+Y asi mismo la base de datos SQLite se genera automaticamente al iniciar el proyecto
+
+### Reporte de Cambios
+
+En este parcial se hicieron cambios segun lo que se solicitaba, para la gestion de gastos se agrego el campo expenses en la entidad de TravelPlan usando un arreglo embebido con tipo simple-json. Cada vez que se agrega un gasto desde el endpoint travel-plans/:id/expenses, el sistema busca el plan existente, agrega el nuevo objeto al arreglo de gastos y luego guarda de nuevo el objeto actualizado en SQLite
+
+------------------------------------
+
+
 ## Descripción General
 
 Este proyecto consiste en una API REST desarrollada en NestJS para la gestión de planes de viaje. La aplicación permite crear, consultar y eliminar planes de viaje asociados a diferentes países.
